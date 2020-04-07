@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name='liteblue',
-    version='0.0.1',
+    version='0.0.2',
     packages=['liteblue'],
     install_requires=['invoke', 'sqlalchemy', 'pymysql', 'aioredis', 'tornado'],
 )

@@ -5,4 +5,4 @@ from .handlers.context import current_user, broadcast
 from .describe import describe, describe_sql
 from .server import Application
 
-VERSION = "0.0.1"
+VERSION = "0.0.2"
