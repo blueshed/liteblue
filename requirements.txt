@@ -1,0 +1,9 @@
+-e .
+pytest-cov
+pytest_docker
+pytest-tornasync
+bumpversion
+black
+pylint
+alembic
+sphinx

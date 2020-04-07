@@ -1,0 +1,10 @@
+*.pyc
+.pytest_cache
+.vscode
+.coverage
+liteblue.egg-info
+tests/mysql
+tests/test.db
+venv
+*.DS_Store
+docs/_build

@@ -1,0 +1,17 @@
+version: '3'
+services:
+    liteblue-db:
+        image: mysql:5.7
+        environment:
+          - MYSQL_USER=simple_user
+          - MYSQL_PASSWORD=simple_pwd
+          - MYSQL_DATABASE=simple
+          - MYSQL_ROOT_PASSWORD=secret
+        volumes:
+          - ./mysql/data:/var/lib/mysql
+        ports:
+          - "3309:3306"
+    liteblue-redis:
+        image: redis
+        ports:
+        - "6381:6379"
