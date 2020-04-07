@@ -6,7 +6,7 @@ import sqlalchemy as sa
 from alembic import command
 from alembic.config import Config
 from .app.main import Config as settings
-from liteblue import ConnectionMgr, context
+from liteblue import Application, ConnectionMgr, context
 from liteblue.handlers import BroadcastMixin
 
 
@@ -83,8 +83,6 @@ def no_login_url():
 @pytest.fixture
 def app(default_db, io_loop):
     """ returns a testable app """
-    from liteblue import server
 
-    context.Context.init(settings, io_loop=io_loop)
-    app = server.make_app(settings)  # a tornado.web.Application
+    app = Application(settings)  # a tornado.web.Application
     yield app

@@ -219,7 +219,6 @@ async def test_broadcast(ws_client):
     }
     client.close()
     await asyncio.sleep(0.01)
-    await handlers.BroadcastMixin.tidy_up()
 
 
 async def test_exceptional(ws_client):
@@ -251,7 +250,7 @@ async def test_keep_alive(ws_client, caplog):
 
     with caplog.at_level(logging.DEBUG):
 
-        handlers.RpcWebsocket.keep_alive()
+        handlers.BroadcastMixin.keep_alive()
         await asyncio.sleep(0.1)
         client.close()
 

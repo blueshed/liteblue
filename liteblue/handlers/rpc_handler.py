@@ -14,10 +14,10 @@ LOGGER = logging.getLogger(__name__)
 class RpcHandler(UMix, RpcMix, RequestHandler):
     """ marshall json rpc 2.0 requests and respond """
 
-    def initialize(self, procedures):
-        """ what do we make available remotely """
-        self.procedures = procedures
-        LOGGER.debug("available: %s", self.procedures.__all__)
+    @property
+    def procedures(self):
+        """ what we make available """
+        return self.settings["procedures"]
 
     async def post(self):
         """ We only handle the post method """

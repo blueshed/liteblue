@@ -4,7 +4,7 @@
 import logging
 import os
 from liteblue import config
-from liteblue import server
+from liteblue import Application, ConnectionMgr
 
 LOGGER = logging.getLogger(__name__)
 
@@ -28,6 +28,11 @@ class Prod(Config):
     redis_url = "redis://localhost:6381"
 
 
+def make_app(cfg):
+    ConnectionMgr.connection("default", cfg.db_url, **cfg.connection_kwargs)
+    return Application(cfg)
+
+
 def main():  # pragma: no cover
     """ run the application """
-    server.main(Config)
+    make_app(Config).run()

@@ -3,7 +3,6 @@
     A json rpc 2.0
 """
 import logging
-from . import context
 
 LOGGER = logging.getLogger(__name__)
 
@@ -55,9 +54,10 @@ class JsonRpcMixin:
             user = self.current_user
             args, kwargs = self.get_params(content)
             LOGGER.debug("%s %s %s %s", user, method, args, kwargs)
-            proc = getattr(self.procedures, method)
 
-            result["result"] = await context.do_proc(user, proc, *args, **kwargs)
+            result["result"] = await self.application.perform(
+                user, method, *args, **kwargs
+            )
             if ref is None:
                 result = None  # its a notification
 

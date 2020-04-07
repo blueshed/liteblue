@@ -14,13 +14,14 @@ from .user_mixin import UserMixin as UMix
 class RpcWebsocket(UMix, BcMix, RpcMix, Ws):
     """ implementation """
 
-    def initialize(self, procedures):
-        """ what do we make available remotely """
-        self.procedures = procedures
-        self._id = str(uuid.uuid4())
+    @property
+    def procedures(self):
+        """ what we make available """
+        return self.settings["procedures"]
 
     def open(self, *args, **kwargs):
         """ websocket open - register user """
+        self._id = str(uuid.uuid4())
         if self.current_user is None and self.settings.get("login_url"):
             raise HTTPError(403)
         self.init_broadcast()

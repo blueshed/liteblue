@@ -7,13 +7,27 @@ import logging
 import time
 import inspect
 import tornado.iostream
-from tornado.ioloop import PeriodicCallback, IOLoop
+from tornado import ioloop
 from tornado.queues import Queue
 from tornado import gen
 from .broadcaster import Broadcaster
 from . import json_utils
 
 LOGGER = logging.getLogger(__name__)
+
+
+class RedisBroadcaster(Broadcaster):
+    """ simple re-broadcaster """
+
+    def broadcast(self, document):
+        """ sends to _clients_ """
+        data, user_ids = json_utils.loads(document)
+        BroadcastMixin.send(data, user_ids)
+
+    async def send(self, data, user_ids):
+        """ sends to redis """
+        document = json_utils.dumps([data, user_ids])
+        await self.publish(document)
 
 
 class BroadcastMixin:
@@ -89,45 +103,28 @@ class BroadcastMixin:
                 client.queue.put_nowait(message)
 
     @classmethod
-    def init_broadcasts(cls, topic_name: str, redis_url: str, io_loop: IOLoop = None):
-        """ called to initialize _broadcast_ attribute """
-        cls._loop_ = io_loop if io_loop else IOLoop.current()
+    def init_broadcasts(cls, io_loop, topic_name, redis_url):
+        """ set up keep alive and re-broadcaster """
+        cls._loop_ = io_loop
+        cls._cron_ = ioloop.PeriodicCallback(cls.keep_alive, 30000)
+        cls._cron_.start()
+
         if redis_url:
             cls._broadcaster_ = RedisBroadcaster(topic_name, redis_url)
             cls._loop_.call_later(0, cls._broadcaster_.subscribe)
-            logging.info("redis broadcast")
+            LOGGER.info("redis broadcast")
         else:
             cls._broadcaster_ = None
-            logging.info("local broadcast")
-        if cls._cron_ is not None:
-            cls._cron_.stop()
-        cls._cron_ = PeriodicCallback(cls.keep_alive, 30000)
-        cls._cron_.start()
+            LOGGER.info("local broadcast")
 
     @classmethod
     async def tidy_up(cls):
-        """ a nasty little method to clean up an io_loop for testing """
+        """ clean up keep alive, broadcaster and client tasks """
         if cls._cron_:
             cls._cron_.stop()
-            cls._cron_ = None
         if cls._broadcaster_:
             await cls._broadcaster_.unsubscribe()
-            cls._broadcaster_ = None
         tasks = [b._task_ for b in cls._clients_ if b._task_]  # pylint: disable=W0212
         for task in tasks:
             task.cancel()
         await asyncio.sleep(0.11)
-
-
-class RedisBroadcaster(Broadcaster):
-    """ simple re-broadcaster """
-
-    def broadcast(self, document):
-        """ sends to _clients_ """
-        data, user_ids = json_utils.loads(document)
-        BroadcastMixin.send(data, user_ids)
-
-    async def send(self, data, user_ids):
-        """ sends to redis """
-        document = json_utils.dumps([data, user_ids])
-        await self.publish(document)

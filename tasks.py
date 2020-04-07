@@ -7,7 +7,6 @@ from alembic import command
 from invoke import task
 from liteblue.moo import Moo
 from tests.app.main import Config
-from tests.app import procedures
 
 
 @task
@@ -75,7 +74,7 @@ def docs(ctx):
 
 
 async def go():
-    async with Moo('tests.app.config') as cow:
+    async with Moo(Config) as cow:
         print(await cow.add(2, 2))
 
 

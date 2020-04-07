@@ -6,7 +6,6 @@ import urllib.parse
 import pytest
 from tornado.httpclient import HTTPRequest, HTTPClientError
 from tornado.websocket import websocket_connect, WebSocketClosedError
-from liteblue import handlers
 from .helpers import SimpleBroadcaster
 
 
@@ -59,12 +58,12 @@ async def ws_client(http_server_port, cookie):
     return result
 
 
-async def test_redis_broadcast(ws_client, redis_url, io_loop):
+async def test_redis_broadcast(ws_client, redis_url, io_loop, app):
     """ test add function via websocket """
-    from liteblue import BroadcastMixin
+    from liteblue.handlers import BroadcastMixin
     import time
 
-    BroadcastMixin.init_broadcasts(f"test-{time.time}-topic", redis_url, io_loop)
+    BroadcastMixin.init_broadcasts(io_loop, f"test-{time.time}-topic", redis_url)
 
     client = await ws_client
 
@@ -78,4 +77,4 @@ async def test_redis_broadcast(ws_client, redis_url, io_loop):
     }
 
     client.close()
-    await handlers.BroadcastMixin.tidy_up()
+    await app.tidy_up()
