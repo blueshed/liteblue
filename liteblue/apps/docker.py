@@ -1,13 +1,16 @@
 """ task to create Dockerfile and docker-compose.yml """
 import os
+import logging
 from invoke import task
+
+LOGGER = logging.getLogger(__name__)
 
 
 @task
 def docker(_, name, force=False):
     """ create a config folder with dev, staging & prod yamls """
     docker_file = "Dockerfile"
-    print(f"gen docker: {docker_file}")
+    LOGGER.info("gen docker: Dockerfile")
     if os.path.isfile(docker_file) and force is False:
         print("that file already exists: ", docker_file)
     else:
@@ -39,7 +42,7 @@ ENV PORT 80
 
 """
             )
-        print(f"gen docker: docker-compose.yml")
+        LOGGER.info("gen docker:docker-compose.yml")
         with open("docker-compose.yml", "w") as file:
             file.write(
                 f"""version: '3'
