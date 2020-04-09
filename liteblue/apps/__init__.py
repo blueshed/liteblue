@@ -10,7 +10,7 @@ from . import db
 
 sys.path.insert(0, os.getcwd())
 
-VERSION = "0.0.4"
+VERSION = "0.0.5"
 
 _NAMESPACE_ = Collection()
 

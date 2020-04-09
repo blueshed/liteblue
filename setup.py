@@ -20,7 +20,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="liteblue",
-    version="0.0.4",
+    version="0.0.5",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/blueshed/liteblue/",
