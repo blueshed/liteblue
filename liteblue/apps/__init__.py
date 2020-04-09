@@ -6,7 +6,7 @@ from invoke import Program, Collection
 from . import run
 from . import db
 
-VERSION = '0.0.2'
+VERSION = '0.0.3'
 
 _NAMESPACE_ = Collection()
 
