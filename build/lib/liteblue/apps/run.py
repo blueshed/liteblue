@@ -30,6 +30,7 @@ def create(ctx, project):
             tmpl = loader.load(template)
             with open(target, "wb") as file:
                 file.write(tmpl.generate(project_name=project))
+    os.makedirs(f"{project}/scripts/versions")
     revise(ctx, project, "first pass")
     upgrade(ctx, project, force=True)
     docker(ctx, project, force=True)

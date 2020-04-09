@@ -1,5 +1,6 @@
 """ tasks to create and run projects """
 import os
+import sys
 import logging
 from importlib import import_module
 from pkg_resources import resource_filename
@@ -7,6 +8,7 @@ import tornado.template
 from invoke import task
 from .db import revise, upgrade
 from .docker import docker
+from .utils import confirm_action, Colored
 
 LOGGER = logging.getLogger(__name__)
 
@@ -14,9 +16,15 @@ LOGGER = logging.getLogger(__name__)
 @task
 def create(ctx, project):
     """ creates a new project with a sqlite db """
-    ctx.run(f"rm -rf {project}")
+    sys.path.append(os.getcwd())
+    if os.path.isdir(project):
+        if confirm_action(Colored.red("DELETE ") + project + "?"):
+            ctx.run(f"rm -rf {project}")
+        else:
+            return
     if os.path.isfile(f"{project}.db"):
         os.unlink(f"{project}.db")
+    LOGGER.info(Colored.cyan("creating: ") + project)
     template_dir = resource_filename("liteblue.apps", "simple")
     loader = tornado.template.Loader(template_dir)
     for path, folders, files in os.walk(template_dir):
@@ -39,5 +47,6 @@ def create(ctx, project):
 @task(help={"package": "the liteblue module to run"})
 def run(_, package):
     """ run a liteblue project """
+    sys.path.append(os.getcwd())
     app = import_module(package)
     app.main()
