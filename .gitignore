@@ -9,3 +9,5 @@ venv
 *.DS_Store
 docs/_build
 calc
+calc.db
+dist
