@@ -10,4 +10,5 @@ venv
 docs/_build
 calc
 calc.db
+build
 dist

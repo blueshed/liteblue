@@ -41,6 +41,7 @@ def docs(ctx):
 @task
 def clean(ctx):
     """ tidy up """
+    ctx.run("rm -rf build")
     ctx.run("rm -rf dist")
 
 
