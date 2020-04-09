@@ -8,3 +8,4 @@ tests/test.db
 venv
 *.DS_Store
 docs/_build
+calc

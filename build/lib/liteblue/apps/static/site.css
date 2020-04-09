@@ -1,0 +1,42 @@
+html, body{
+    font-family: monospace;
+}
+.error{
+    color: red;
+}
+.box{
+    border: 1px solid darkgray;
+    border-radius: 4px;
+    margin: 1em;
+    padding: 1em;
+}
+.title{
+    font-size: larger;
+    margin-bottom: 0.75em;
+}
+.field label{
+    display: inline-block;
+    width: 60px;
+    margin-bottom: 6px;
+    text-align: right;
+}
+.result{
+    margin-top: 6px;
+}
+.result label{
+    color: darkgray;
+}
+.result button{
+    float: right;
+}
+.result pre{
+    margin-left: 6px;
+}
+.row{
+    display: flex;
+    flex-flow: row wrap;
+    align-content: flex-start;
+}
+.column {
+    /* margin: auto;  /* Magic! */ */
+}

@@ -3,19 +3,19 @@ from .app import procedures
 from .app import tables
 
 
-def test_describe():
-    """ we need more tests that this. """
-    result = procedures.reflect()
+async def test_describe():
+    ''' we need more tests that this. '''
+    result = await procedures.reflect()
     print(result)
 
-    assert result["add"]["docs"] == "returns a plus b "
+    assert result['procedures']['add']['docs'] == 'returns a plus b '
 
     result = describe(
-        procedures, [name for name in procedures.__all__ if name != "add"]
+        procedures, [name for name in procedures.__all__ if name != 'add']
     )
     print(result)
 
-    assert result.get("add") is None
+    assert result.get('add') is None
 
 
 def test_get_user():
@@ -26,4 +26,4 @@ def test_describe_sql():
 
     result = describe_sql(tables.metadata)
     print(result)
-    assert result["user"]["id"]["pk"] is True
+    assert result['user']['id']['pk'] is True

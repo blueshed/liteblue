@@ -3,8 +3,10 @@
 """
 import logging
 import os
+from pkg_resources import resource_filename
+from liteblue.server import Application
+from liteblue.connection import ConnectionMgr
 from liteblue import config
-from liteblue import Application, ConnectionMgr
 
 LOGGER = logging.getLogger(__name__)
 
@@ -13,7 +15,8 @@ class Config(config.Config):
     """ Access to configuration """
 
     name = "test-app"
-    static_path = "tests/app/static"
+    tornado_debug = True
+    static_path = resource_filename("liteblue.apps", "static")
     procedures = "tests.app.procedures"
     alembic_script_location = "tests/alembic"
     db_url = os.getenv("DB_URL", "sqlite:///tests/test.db")
@@ -25,6 +28,7 @@ class Prod(Config):
 
     db_url = "mysql+pymysql://root:secret@localhost:3309/simple"
     connection_kwargs = Config.MYSQL_CONNECT_ARGS
+    connection_kwargs["echo"] = True
     redis_url = "redis://localhost:6381"
 
 

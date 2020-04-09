@@ -1,0 +1,16 @@
+""" Configuration settings for {{ project_name }} """
+import os
+from pkg_resources import resource_filename
+from liteblue import config
+
+class Config(config.Config):
+    """ overide of default config """
+    
+    name = "{{ project_name }}"
+    procedures = "{{project_name}}.procedures"
+    
+    tornado_debug = True
+    static_path = resource_filename('liteblue.apps', 'static')
+
+    db_url = os.getenv('DB_URL', 'sqlite:///{{ project_name }}.db')
+    alembic_script_location = resource_filename('{{project_name}}', 'scripts')

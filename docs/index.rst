@@ -15,6 +15,14 @@ It uses Websockets or EventSource to provide real-time updates.
    :maxdepth: 2
    :caption: Contents:
 
+   start
+   application
+   authentication
+   handlers
+   sqlalchemy
+   redis
+   moo
+   utils
 
 
 Indices and tables

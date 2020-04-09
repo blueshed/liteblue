@@ -7,3 +7,5 @@ black
 pylint
 alembic
 sphinx
+wheel
+twine

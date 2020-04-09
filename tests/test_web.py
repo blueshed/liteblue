@@ -2,7 +2,7 @@
 import urllib.parse
 from tornado.httpclient import HTTPClientError
 from sqlalchemy.sql import insert
-from liteblue import ConnectionMgr
+from liteblue.connection import ConnectionMgr
 from liteblue.user import user
 
 

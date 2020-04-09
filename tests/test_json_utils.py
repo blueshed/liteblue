@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from datetime import datetime, date, time
 from decimal import Decimal
 from types import SimpleNamespace
-from liteblue import json_utils
+from liteblue.handlers import json_utils
 from .helpers.enum_helpers import EnumHelper
 
 

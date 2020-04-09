@@ -6,7 +6,9 @@ import sqlalchemy as sa
 from alembic import command
 from alembic.config import Config
 from .app.main import Config as settings
-from liteblue import Application, ConnectionMgr, context
+from liteblue import context
+from liteblue.server import Application
+from liteblue.connection import ConnectionMgr
 from liteblue.handlers import BroadcastMixin
 
 

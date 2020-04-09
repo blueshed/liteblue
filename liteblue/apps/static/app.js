@@ -56,6 +56,8 @@ function value_to_type(value, type) {
         value = b.value_of();
     } else if (type == "dict") {
         value = JSON.parse(value);
+    } else if (type == "list") {
+        value = JSON.parse(value);
     }
     return value;
 }
@@ -156,9 +158,10 @@ const app = new Store();
 window.app = app;
 
 app.dispatch("reflect", []).then(function (response) {
-    var row = document.getElementsByClassName("row")[0];
-    Object.keys(response).map(key => {
-        let panel = add_panel(key, response[key]);
+    let row = document.getElementsByClassName("row")[0];
+    let procedures = response.procedures
+    Object.keys(procedures).map(key => {
+        let panel = add_panel(key, procedures[key]);
         row.appendChild(panel);
     })
 });
