@@ -45,7 +45,7 @@ def clean(ctx):
     ctx.run("rm -rf dist")
 
 
-@task(pre=[clean, docs])
+@task(pre=[clean, lint, docs])
 def release(ctx, message, part="patch"):
     """ release the build to git hub """
     ctx.run(f"git add . && git commit -m '{message}'")
