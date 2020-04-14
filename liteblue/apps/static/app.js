@@ -92,10 +92,17 @@ function add_panel(name, meta) {
             }
             let field = document.createElement("DIV");
             field.className = "field";
-            field.innerHTML = `
+            if (type == 'list' || type == "dict") {
+                field.innerHTML = `
+<label>${name}:</label>
+<textarea name="${name}" placeholder="${type} - json">${default_value}</textarea>
+`
+            } else {
+                field.innerHTML = `
 <label>${name}:</label>
 <input type="text" name="${name}" value="${default_value}" placeholder="${type}">
 `
+            }
             form.appendChild(field);
             types[name] = {
                 name: name,

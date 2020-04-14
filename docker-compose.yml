@@ -1,0 +1,41 @@
+version: '3'
+services:
+    web:
+        build: .
+        image: liteblue-app:latest
+        container_name: liteblue-app-web
+        command: python -m app.main
+        ports:
+        - "8080:80"
+        depends_on:
+            - liteblue-redis
+            - liteblue-db
+    worker1:
+        image: liteblue-app:latest
+        container_name: liteblue-worker1
+        command: python -m app.worker
+        depends_on:
+            - liteblue-redis
+            - liteblue-db
+    worker2:
+        image: liteblue-app:latest
+        container_name: liteblue-worker2
+        command: python -m app.worker
+        depends_on:
+            - liteblue-redis
+            - liteblue-db
+    liteblue-db:
+        image: mysql:5.7
+        environment:
+          - MYSQL_USER=simple_user
+          - MYSQL_PASSWORD=simple_pwd
+          - MYSQL_DATABASE=simple
+          - MYSQL_ROOT_PASSWORD=secret
+        volumes:
+          - ./tests/mysql/data:/var/lib/mysql
+        ports:
+          - "3309:3306"
+    liteblue-redis:
+        image: redis
+        ports:
+        - "6381:6379"
