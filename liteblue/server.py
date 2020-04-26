@@ -1,12 +1,9 @@
-'''
+"""
     tornado ws rpc server
-'''
-import asyncio
+"""
 import logging
-import uuid
 from importlib import import_module
 from concurrent.futures import ThreadPoolExecutor
-import aioredis
 from tornado import web, ioloop
 from . import handlers
 from . import authentication
@@ -17,44 +14,41 @@ LOGGER = logging.getLogger(__name__)
 
 
 class Application(web.Application):
-    ''' subclass of tornado Application '''
+    """ subclass of tornado Application """
 
-    def __init__(
-        self, cfg: Config, routes: list = None, io_loop: ioloop.IOLoop = None
-    ):
-        ''' called to initialize _broadcast_ attribute '''
+    def __init__(self, cfg: Config, routes: list = None, io_loop: ioloop.IOLoop = None):
+        """ called to initialize _broadcast_ attribute """
         procedures = import_module(cfg.procedures)
         settings = {
-            k[8:]: getattr(cfg, k) for k in dir(cfg) if k.startswith('tornado_')
+            k[8:]: getattr(cfg, k) for k in dir(cfg) if k.startswith("tornado_")
         }
         routes = (
             routes
             if routes
             else [
                 (
-                    r'/login',
+                    r"/login",
                     handlers.LoginHandler,
                     {
-                        'login': authentication.login,
-                        'register': authentication.register,
+                        "login": authentication.login,
+                        "register": authentication.register,
+                        "page": getattr(cfg, "login_page", "login.html"),
                     },
                 ),
-                (r'/logout', handlers.LogoutHandler),
-                (r'/events', handlers.EventSource),
-                (r'/rpc', handlers.RpcHandler),
-                (r'/ws', handlers.RpcWebsocket),
+                (r"/logout", handlers.LogoutHandler),
+                (r"/events", handlers.EventSource),
+                (r"/rpc", handlers.RpcHandler),
+                (r"/ws", handlers.RpcWebsocket),
                 (
-                    r'/(.*)',
+                    r"/(.*)",
                     handlers.AuthStaticFileHandler
-                    if getattr(cfg, 'tornado_login_url')
+                    if getattr(cfg, "tornado_login_url")
                     else web.StaticFileHandler,
-                    {'default_filename': 'index.html', 'path': cfg.static_path},
+                    {"default_filename": "index.html", "path": cfg.static_path},
                 ),
             ]
         )
-        super().__init__(
-            routes, procedures=procedures, app_name=cfg.name, **settings
-        )
+        super().__init__(routes, procedures=procedures, app_name=cfg.name, **settings)
         self._cfg_ = cfg
         self._loop_ = io_loop if io_loop else ioloop.IOLoop.current()
         self._loop_.set_default_executor(
@@ -68,26 +62,25 @@ class Application(web.Application):
             self.channel = Channel(self._cfg_)
 
     async def tidy_up(self):
-        ''' a nasty little method to clean up an io_loop for testing '''
+        """ a nasty little method to clean up an io_loop for testing """
         if self._cfg_.redis_workers:
             await self.channel.tidy_up()
         await handlers.BroadcastMixin.tidy_up()
 
     async def perform(self, user, proc, *args, **kwargs):
-        ''' runs a proc in threadpool or ioloop '''
+        """ runs a proc in threadpool or ioloop """
         if self._cfg_.redis_workers:
             return await self.channel.perform(user, proc, *args, **kwargs)
-        else:
-            proc = getattr(self.settings['procedures'], proc)
-            return await handlers.context.perform(user, proc, *args, **kwargs)
+        proc = getattr(self.settings["procedures"], proc)
+        return await handlers.context.perform(user, proc, *args, **kwargs)
 
     def run(self):  # pragma: no cover
-        ''' run the application '''
+        """ run the application """
         self.listen(self._cfg_.port)
         if self._cfg_.tornado_debug:
-            LOGGER.info('running in debug mode')
-        LOGGER.info('%s on port: %s', self._cfg_.name, self._cfg_.port)
+            LOGGER.info("running in debug mode")
+        LOGGER.info("%s on port: %s", self._cfg_.name, self._cfg_.port)
         try:
             self._loop_.start()
         except KeyboardInterrupt:
-            logging.info('shut down.')
+            logging.info("shut down.")

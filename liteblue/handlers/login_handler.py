@@ -1,3 +1,4 @@
+# pylint: disable=W0201
 """
     Support for Tornado Authentication.
 """
@@ -26,10 +27,11 @@ class LoginHandler(UserMixin, RequestHandler):  # pylint: disable=W0223
         into the headers.
     """
 
-    def initialize(self, login, register):
+    def initialize(self, login, register, page="login.html"):
         """ we're configured with functions to perform login and register """
-        self.login = login  # pylint: disable=W0201
-        self.register = register  # pylint: disable=W0201
+        self.login = login
+        self.register = register
+        self.page = page
 
     def get(self, error=None, notice=None):
         """ render the form """
@@ -37,7 +39,7 @@ class LoginHandler(UserMixin, RequestHandler):  # pylint: disable=W0223
         next_ = self.get_argument("next", "/")
         can_register = self.register is not None
         self.render(
-            "login.html",
+            self.page,
             email=email,
             error=error,
             notice=notice,
