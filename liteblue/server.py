@@ -59,7 +59,7 @@ class Application(web.Application):
             self._loop_, cfg.redis_topic, cfg.redis_url
         )
         if self._cfg_.redis_workers:
-            self.channel = Channel(self._cfg_)
+            self.channel = Channel(cfg.redis_url, cfg.redis_queue)
 
     async def tidy_up(self):
         """ a nasty little method to clean up an io_loop for testing """

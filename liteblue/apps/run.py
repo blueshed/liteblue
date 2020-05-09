@@ -12,7 +12,7 @@ from .utils import qname_to_class, confirm_action, Colored
 LOGGER = logging.getLogger(__name__)
 
 
-@task
+@task(help={"project": "name of project"})
 def create(ctx, project):
     """ creates a new project with a sqlite db """
     if os.path.isdir(project):
@@ -51,8 +51,8 @@ def run(_, package):
 
 @task(help={"config": "config.Config module path"})
 def worker(_, config):
-    """ run a liteblue project """
+    """ run a liteblue worker """
     from liteblue.worker import main  # pylint: disable=C0415
 
-    cfg = qname_to_class(config)
-    main(cfg)
+    cfg_ = qname_to_class(config)
+    main(cfg_)

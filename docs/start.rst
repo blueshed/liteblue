@@ -5,7 +5,7 @@ To create a sample app, first create a python virtual environment ::
 
     python3.8 -m venv venv
 
-Then activate the virtual environment:
+Then activate the virtual environment::
 
     . venv/bin/activate
 

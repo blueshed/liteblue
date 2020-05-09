@@ -41,7 +41,7 @@ def dumps(obj, **kwargs):
 
 
 def type_from_json(type_, value):
-    """provided with a string and type return the type"""
+    """provided with a string and type return the value as type"""
     result = value
     if value:
         if type_ == int:

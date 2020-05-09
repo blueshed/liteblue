@@ -3,6 +3,7 @@ import contextvars
 import contextlib
 import inspect
 import logging
+from typing import List
 from functools import partial
 from .broadcast_mixin import BroadcastMixin
 
@@ -13,13 +14,13 @@ USER = contextvars.ContextVar("USER")
 LOOP = None
 
 
-def current_user():
+def current_user() -> dict:
     """ returns the user(actor) for this procedure call """
     return USER.get(None)
 
 
-def broadcast(data, user_ids=None):
-    """ broadcast to WebSocket """
+def broadcast(data: dict, user_ids: List[int] = None):
+    """ broadcast to WebSockets and/or EventSources """
     BroadcastMixin.broadcast(data, user_ids)
 
 
@@ -62,5 +63,9 @@ class Performer:  # pylint: disable=R0903
 
 
 def perform(_user_, proc, *args, **kwargs):
-    """ perform a sync or async function """
+    """
+        perform a sync or async function and returns a task.
+        Sync function are performed in a ThreadPoolExecutor.
+        Async functions are performed in this loop.
+    """
     return Performer.perform(_user_, proc, *args, **kwargs)

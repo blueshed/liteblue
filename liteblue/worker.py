@@ -93,11 +93,11 @@ class Worker:
 class Channel:
     """ sends work to redis and handles reply """
 
-    def __init__(self, cfg, loop=None):
+    def __init__(self, url, queue, loop=None):
         self.loop = loop if loop else tornado.ioloop.IOLoop.current()
         self._futures_ = {}
-        self.redis_url = cfg.redis_url
-        self.redis_queue = cfg.redis_queue
+        self.redis_url = url
+        self.redis_queue = queue
         self.reply_queue = f"channel:{uuid.uuid4()}"
         self.reply_task = self.loop.call_later(0, self.reply_subscribe)
         LOGGER.info("redis reply %s", self.reply_queue)

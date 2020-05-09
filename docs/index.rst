@@ -11,11 +11,26 @@ making it easy to support sqlalchemy. Used as the host for a single page
 application it will scale via redis to support mutilple hosts. 
 It uses Websockets or EventSource to provide real-time updates.
 
+Liteblue cli is written with invoke::
+
+    % liteblue -l
+    Subcommands:
+
+        create      creates a new project with a sqlite db
+        downgrade   downgrades db to base or revision
+        revise      creates an alembic database revision
+        run         run a liteblue project
+        upgrade     upgrades db to head or revision
+        worker      run a liteblue worker
+
+
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
    start
+   context
    application
    authentication
    handlers
