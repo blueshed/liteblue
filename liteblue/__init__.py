@@ -2,4 +2,4 @@
 
 from .handlers import context
 
-VERSION = "0.0.9"
+VERSION = "0.0.10"
