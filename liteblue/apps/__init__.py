@@ -11,7 +11,7 @@ from . import cfg
 
 sys.path.insert(0, os.getcwd())
 
-VERSION = "0.0.11"
+VERSION = "0.0.12"
 
 _NAMESPACE_ = Collection()
 
