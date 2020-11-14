@@ -53,19 +53,20 @@ class Performer:  # pylint: disable=R0903
     def perform(cls, user, proc, *args, **kwargs):
         """ perform in LOOP.executor or await """
         todo = partial(proc, *args, **kwargs)
-        LOGGER.info("calling: %s", todo)
 
         if inspect.iscoroutinefunction(proc):
+            LOGGER.info("aperform: %s", todo)
             result = cls._aperform_(user, todo)
         else:
+            LOGGER.info("perform: %s", todo)
             result = LOOP.run_in_executor(None, cls._perform_, user, todo)
         return result
 
 
 def perform(_user_, proc, *args, **kwargs):
     """
-        perform a sync or async function and returns a task.
-        Sync function are performed in a ThreadPoolExecutor.
-        Async functions are performed in this loop.
+    perform a sync or async function and returns a task.
+    Sync function are performed in a ThreadPoolExecutor.
+    Async functions are performed in this loop.
     """
     return Performer.perform(_user_, proc, *args, **kwargs)

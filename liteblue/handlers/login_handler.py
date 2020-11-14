@@ -10,8 +10,8 @@ from .user_mixin import UserMixin
 
 class LogoutHandler(UserMixin, RequestHandler):  # pylint: disable=W0223
     """
-        Removes the cookie from application settings
-        and redirects.
+    Removes the cookie from application settings
+    and redirects.
     """
 
     def get(self):
@@ -22,9 +22,9 @@ class LogoutHandler(UserMixin, RequestHandler):  # pylint: disable=W0223
 
 class LoginHandler(UserMixin, RequestHandler):  # pylint: disable=W0223
     """
-        Can be called as ajax from the
-        websocket client to get the auth cookie
-        into the headers.
+    Can be called as ajax from the
+    websocket client to get the auth cookie
+    into the headers.
     """
 
     def initialize(self, login, register, page="login.html"):

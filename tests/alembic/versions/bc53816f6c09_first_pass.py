@@ -35,8 +35,14 @@ def upgrade():
         "activity_roles",
         sa.Column("roles_id", sa.Integer(), nullable=True),
         sa.Column("role_id", sa.Integer(), nullable=True),
-        sa.ForeignKeyConstraint(["role_id"], ["role.id"],),
-        sa.ForeignKeyConstraint(["roles_id"], ["activity.id"],),
+        sa.ForeignKeyConstraint(
+            ["role_id"],
+            ["role.id"],
+        ),
+        sa.ForeignKeyConstraint(
+            ["roles_id"],
+            ["activity.id"],
+        ),
     )
     op.create_table(
         "user",
@@ -44,7 +50,10 @@ def upgrade():
         sa.Column("email", sa.String(length=128), nullable=False),
         sa.Column("password", sa.String(length=64), nullable=True),
         sa.Column("role_id", sa.Integer(), nullable=True),
-        sa.ForeignKeyConstraint(["role_id"], ["role.id"],),
+        sa.ForeignKeyConstraint(
+            ["role_id"],
+            ["role.id"],
+        ),
         sa.PrimaryKeyConstraint("id"),
     )
     # ### end Alembic commands ###

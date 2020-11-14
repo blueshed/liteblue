@@ -26,7 +26,7 @@ class RpcWebsocket(UMix, BcMix, RpcMix, Ws):
             raise HTTPError(403)
         self.init_broadcast()
 
-    async def on_message(self, data):
+    async def on_message(self, data):  # pylint: disable=W0236
         """ handle the action """
         content = loads(data)
         result = await self.handle_content(content)

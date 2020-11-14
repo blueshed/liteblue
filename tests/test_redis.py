@@ -40,7 +40,11 @@ async def cookie(http_server_client):
         },
         method="POST",
         body=urllib.parse.urlencode(
-            {"email": "redis-rpc@ws.com", "password": "12345", "submit": "register",}
+            {
+                "email": "redis-rpc@ws.com",
+                "password": "12345",
+                "submit": "register",
+            }
         ),
         follow_redirects=False,
         raise_error=False,
@@ -52,7 +56,8 @@ async def cookie(http_server_client):
 async def ws_client(http_server_port, cookie):
 
     request = HTTPRequest(
-        f"ws://localhost:{http_server_port[1]}/ws", headers={"Cookie": await cookie},
+        f"ws://localhost:{http_server_port[1]}/ws",
+        headers={"Cookie": await cookie},
     )
     result = await websocket_connect(request)
     return result

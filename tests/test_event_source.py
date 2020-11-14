@@ -19,7 +19,11 @@ async def cookie(http_server_client):
         },
         method="POST",
         body=urllib.parse.urlencode(
-            {"email": "evts-rpc@ws.com", "password": "12345", "submit": "register",}
+            {
+                "email": "evts-rpc@ws.com",
+                "password": "12345",
+                "submit": "register",
+            }
         ),
         follow_redirects=False,
         raise_error=False,

@@ -13,13 +13,13 @@ LOGGER = logging.getLogger(__name__)
 
 class EventSource(UMix, BroadcastMixin, RequestHandler):
     """
-        Queue of messages to send to client
+    Queue of messages to send to client
     """
 
     def initialize(self):
         """
-            Set up response headers and prepare
-            local queue and add self to clients
+        Set up response headers and prepare
+        local queue and add self to clients
         """
         self.set_header("content-type", "text/event-stream")
         self.set_header("cache-control", "no-cache")

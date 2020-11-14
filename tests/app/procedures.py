@@ -97,7 +97,8 @@ def users() -> list:
                     tables.activity,
                     tables.activity.c.id == tables.activity_roles.c.roles_id,
                 ).join(
-                    tables.role, tables.role.c.id == tables.activity_roles.c.role_id,
+                    tables.role,
+                    tables.role.c.id == tables.activity_roles.c.role_id,
                 )
             )
         )
@@ -111,7 +112,9 @@ def users() -> list:
 
 
 async def service(
-    action: str = "set_broadcast", message: "typing.Any" = "hoho", delay: int = 30,
+    action: str = "set_broadcast",
+    message: "typing.Any" = "hoho",
+    delay: int = 30,
 ):
     try:
         LOGGER.info("starting service...")

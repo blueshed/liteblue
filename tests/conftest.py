@@ -56,7 +56,9 @@ def redis_url(docker_services):
     redis_port = docker_services.port_for("liteblue-redis", 6379)
     url = f"redis://localhost:{redis_port}"
     docker_services.wait_until_responsive(
-        timeout=30.0, pause=0.5, check=lambda: asyncio.run(is_redis_responsive(url)),
+        timeout=30.0,
+        pause=0.5,
+        check=lambda: asyncio.run(is_redis_responsive(url)),
     )
     return url
 

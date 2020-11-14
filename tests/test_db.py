@@ -60,7 +60,8 @@ def test_role_activities(default_db):
         ).inserted_primary_key[0]
         session.execute(
             insert(
-                activity_roles, {"roles_id": activity_["id"], "role_id": role_["id"]},
+                activity_roles,
+                {"roles_id": activity_["id"], "role_id": role_["id"]},
             )
         )
         session.commit()

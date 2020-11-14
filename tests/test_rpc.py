@@ -20,7 +20,11 @@ async def test_register(http_server_client):
     }
     try:
         await http_server_client.fetch(
-            "/login", headers=headers, method="POST", body=body, follow_redirects=False,
+            "/login",
+            headers=headers,
+            method="POST",
+            body=body,
+            follow_redirects=False,
         )
     except HTTPClientError as ex:
         assert ex.code == 302
@@ -48,7 +52,8 @@ async def cookie(http_server_client):
 async def ws_client(http_server_port, cookie):
 
     request = HTTPRequest(
-        f"ws://localhost:{http_server_port[1]}/ws", headers={"Cookie": await cookie},
+        f"ws://localhost:{http_server_port[1]}/ws",
+        headers={"Cookie": await cookie},
     )
     result = await websocket_connect(request)
     return result

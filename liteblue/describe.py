@@ -23,7 +23,7 @@ def annotation_to_str(annotation):
 
 def describe_sql(metadata):
     """
-        returns a jsonable sql metadata
+    returns a jsonable sql metadata
     """
     result = {}
     for table_name in metadata.tables:
@@ -47,10 +47,10 @@ def describe_sql(metadata):
 
 def describe(target, limit):
     """
-        Will dir target and inspect each function
+    Will dir target and inspect each function
 
-        functions starting with '_' are ignored,
-        as are functions whose name is not in limit
+    functions starting with '_' are ignored,
+    as are functions whose name is not in limit
     """
     result = OrderedDict()
     for key in filter(lambda x: x[0] != "_", dir(target)):

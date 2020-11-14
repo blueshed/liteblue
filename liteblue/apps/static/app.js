@@ -146,7 +146,9 @@ function add_panel(name, meta) {
         let formData = new FormData(event.target);
         for (var pair of formData.entries()) {
             let type = types[pair[0]];
-            params[pair[0]] = value_to_type(pair[1], type.type);
+            if (type !== undefined) {
+                params[pair[0]] = value_to_type(pair[1], type.type);
+            }
         }
         var result = document.getElementById(name + "_result");
         app.dispatch(name, params).then(function (response) {

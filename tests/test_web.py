@@ -26,7 +26,11 @@ async def test_register_fail(http_server_client):
         "Accept": "text/plain",
     }
     response = await http_server_client.fetch(
-        "/login", headers=headers, method="POST", body=body, follow_redirects=False,
+        "/login",
+        headers=headers,
+        method="POST",
+        body=body,
+        follow_redirects=False,
     )
     assert "Password must be five or more characters" in response.body.decode("utf-8")
 
@@ -41,7 +45,11 @@ async def test_register(http_server_client):
     }
     try:
         await http_server_client.fetch(
-            "/login", headers=headers, method="POST", body=body, follow_redirects=False,
+            "/login",
+            headers=headers,
+            method="POST",
+            body=body,
+            follow_redirects=False,
         )
     except HTTPClientError as ex:
         print(ex.response.headers)
@@ -67,7 +75,11 @@ async def test_pre_register(http_server_client, default_db):
     }
     try:
         await http_server_client.fetch(
-            "/login", headers=headers, method="POST", body=body, follow_redirects=False,
+            "/login",
+            headers=headers,
+            method="POST",
+            body=body,
+            follow_redirects=False,
         )
     except HTTPClientError as ex:
         print(ex.response.headers)
@@ -87,7 +99,11 @@ async def test_register_already_fail(http_server_client):
         "Accept": "text/plain",
     }
     response = await http_server_client.fetch(
-        "/login", headers=headers, method="POST", body=body, follow_redirects=False,
+        "/login",
+        headers=headers,
+        method="POST",
+        body=body,
+        follow_redirects=False,
     )
     assert "Already registered" in response.body.decode("utf-8")
 
@@ -150,7 +166,11 @@ async def test_home_page(http_server_client):
     }
     try:
         await http_server_client.fetch(
-            "/login", headers=headers, method="POST", body=body, follow_redirects=False,
+            "/login",
+            headers=headers,
+            method="POST",
+            body=body,
+            follow_redirects=False,
         )
     except HTTPClientError as ex:
         print(ex.response.headers)
@@ -171,7 +191,11 @@ async def test_logout(http_server_client):
     }
     try:
         await http_server_client.fetch(
-            "/login", headers=headers, method="POST", body=body, follow_redirects=False,
+            "/login",
+            headers=headers,
+            method="POST",
+            body=body,
+            follow_redirects=False,
         )
     except HTTPClientError as ex:
         print(ex.response.headers)

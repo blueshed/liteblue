@@ -16,6 +16,6 @@ class AuthStaticFileHandler(UserMixin, StaticFileHandler):  # pylint: disable=W0
     """
 
     @authenticated
-    def get(self, path, include_body=True):
+    async def get(self, path, include_body=True):
         """ safe to return what you need """
         return StaticFileHandler.get(self, path, include_body)

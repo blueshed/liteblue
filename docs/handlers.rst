@@ -1,10 +1,7 @@
 Handlers
 ========
 
-This package contains the classes used handle web requests.
-
-.. automodule:: liteblue.handlers
-   :members:
+This package contains the classes used to handle web requests.
 
 .. autoclass:: liteblue.handlers.rpc_websocket.RpcWebsocket
     :members:

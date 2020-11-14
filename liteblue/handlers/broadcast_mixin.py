@@ -32,7 +32,7 @@ class RedisBroadcaster(Broadcaster):
 
 class BroadcastMixin:
     """
-        Queue of messages to send to client
+    Queue of messages to send to client
     """
 
     _clients_ = []
@@ -42,8 +42,8 @@ class BroadcastMixin:
 
     def init_broadcast(self):
         """
-            Set up response headers and prepare
-            local queue and add self to clients
+        Set up response headers and prepare
+        local queue and add self to clients
         """
         self.broadcasting = True
         self.queue = Queue()

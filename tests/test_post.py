@@ -15,7 +15,11 @@ async def cookie(http_server_client):
         },
         method="POST",
         body=urllib.parse.urlencode(
-            {"email": "post-rpc@ws.com", "password": "12345", "submit": "register",}
+            {
+                "email": "post-rpc@ws.com",
+                "password": "12345",
+                "submit": "register",
+            }
         ),
         follow_redirects=False,
         raise_error=False,
@@ -33,7 +37,12 @@ async def test_add_post(http_server_client, cookie, caplog):
             headers={"Cookie": await cookie},
             method="POST",
             body=json.dumps(
-                {"jsonrpc": "2.0", "id": "1a", "method": "add", "params": [2, 2],}
+                {
+                    "jsonrpc": "2.0",
+                    "id": "1a",
+                    "method": "add",
+                    "params": [2, 2],
+                }
             ),
         )
         assert json.loads(response.body)["result"] == 4
@@ -48,7 +57,12 @@ async def test_add_post_fails(http_server_client, caplog):
             "/rpc",
             method="POST",
             body=json.dumps(
-                {"jsonrpc": "2.0", "id": "1a", "method": "add", "params": [2, 2],}
+                {
+                    "jsonrpc": "2.0",
+                    "id": "1a",
+                    "method": "add",
+                    "params": [2, 2],
+                }
             ),
             follow_redirects=False,
             raise_error=False,
