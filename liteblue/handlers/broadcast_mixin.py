@@ -99,7 +99,9 @@ class BroadcastMixin:
         message = json_utils.dumps(data)
         LOGGER.debug("sending: %s", message)
         for client in cls._clients_:
-            if user_ids is None or client.current_user["id"] in user_ids:
+            if user_ids is None:
+                client.queue.put_nowait(message)
+            elif client.current_user["id"] in user_ids:
                 client.queue.put_nowait(message)
 
     @classmethod
